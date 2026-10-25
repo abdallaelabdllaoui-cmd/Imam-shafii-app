@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f5a46">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="الإمام الشافعي">
+<title>منظومة القيادة – مدرسة الإمام الشافعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@600;700&display=swap">
+<style>
+/* Layout: official letterhead band, sticky module bar, then dense working panels (summary before detail). */
+:root{
+  --bg:#f3f6f5; --surface:#ffffff; --surface-2:#e9efed; --line:#cfdad6;
+  --ink:#16302b; --muted:#56706a; --brand:#0f5a46; --brand-ink:#ffffff;
+  --gold:#b07d1a; --ok:#1f7a4c; --ok-bg:#dcefe3; --warn:#9a6200; --warn-bg:#f8ecd2;
+  --bad:#a8322a; --bad-bg:#f6dedb; --info:#245f8f; --info-bg:#dde9f3;
+  --c1:#0f5a46; --c2:#245f8f; --c3:#b07d1a; --c4:#a8322a; --c5:#6a4c93;
+  --f-display:"Noto Kufi Arabic","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1716; --surface:#16211f; --surface-2:#1d2b28; --line:#2c3f3b;
+  --ink:#e4eeeb; --muted:#97aea8; --brand:#3fae8a; --brand-ink:#08221b;
+  --gold:#e0b354; --ok:#5cc58f; --ok-bg:#163828; --warn:#e8b45a; --warn-bg:#3a2d12;
+  --bad:#ef8a80; --bad-bg:#40201d; --info:#79b3e3; --info-bg:#172c3e;
+  --c1:#3fae8a; --c2:#79b3e3; --c3:#e0b354; --c4:#ef8a80; --c5:#b59be0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1716; --surface:#16211f; --surface-2:#1d2b28; --line:#2c3f3b;
+  --ink:#e4eeeb; --muted:#97aea8; --brand:#3fae8a; --brand-ink:#08221b;
+  --gold:#e0b354; --ok:#5cc58f; --ok-bg:#163828; --warn:#e8b45a; --warn-bg:#3a2d12;
+  --bad:#ef8a80; --bad-bg:#40201d; --info:#79b3e3; --info-bg:#172c3e;
+  --c1:#3fae8a; --c2:#79b3e3; --c3:#e0b354; --c4:#ef8a80; --c5:#b59be0; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1280px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.35}
+h2{font-size:1.15rem} h3{font-size:1rem}
+.num{font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* letterhead */
+.letterhead{background:var(--surface);border-bottom:1px solid var(--line)}
+.letterhead .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between;padding-block:14px}
+.official{font-size:.78rem;color:var(--muted);line-height:1.7}
+.official b{color:var(--ink);font-weight:600}
+.school h1{font-size:1.35rem;color:var(--brand)}
+.school p{margin:0;color:var(--muted);font-size:.85rem}
+.headstats{display:flex;gap:8px;flex-wrap:wrap}
+.hs{border:1px solid var(--line);border-radius:var(--r);padding:6px 12px;min-width:84px;background:var(--surface-2)}
+.hs span{display:block;font-size:.72rem;color:var(--muted)}
+.hs strong{font-size:1.15rem;font-family:var(--f-display)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--brand);}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px;scrollbar-width:none}
+.nav button{background:transparent;border:0;color:var(--brand-ink);opacity:.78;padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;font-weight:600}
+.nav button[aria-selected="true"]{opacity:1;background:color-mix(in srgb,var(--brand-ink) 18%,transparent)}
+main.wrap{padding-block:18px 48px}
+.view[hidden]{display:none}
+.view{display:grid;gap:18px}
+.frame-note{background:var(--info-bg);color:var(--info);border-radius:var(--r);padding:8px 12px;font-size:.82rem}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.panel-head p{margin:0;color:var(--muted);font-size:.82rem;flex-basis:100%}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start;border-top:4px solid var(--gc,var(--brand))}
+.goal header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.goal h3{font-size:.98rem}
+.big{font-family:var(--f-display);font-size:2rem;line-height:1.1}
+.big small{font-size:.9rem;color:var(--muted);font-family:var(--f-body)}
+.target{font-size:.8rem;color:var(--muted)}
+.meter{height:10px;background:var(--surface-2);border-radius:99px;position:relative;overflow:hidden}
+.meter i{position:absolute;inset-block:0;right:0;background:var(--gc,var(--brand));border-radius:99px}
+.meter b{position:absolute;inset-block:-2px;width:2px;background:var(--ink)}
+.kv{margin:0;display:grid;grid-template-columns:1fr auto;gap:2px 12px;font-size:.84rem}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)} .pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)} .pill.none{background:var(--surface-2);color:var(--muted)}
+.pill.info{background:var(--info-bg);color:var(--info)}
+.chart-box{position:relative;height:260px}
+.interventions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.iv{border:1px solid var(--line);border-inline-start:4px solid var(--warn);border-radius:var(--r);padding:12px;background:var(--surface)}
+.iv.bad{border-inline-start-color:var(--bad)}
+.iv ul{margin:6px 0 0;padding-inline-start:18px;font-size:.85rem}
+.empty{color:var(--muted);text-align:center;padding:18px;border:1px dashed var(--line);border-radius:var(--r)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+th{background:var(--surface-2);font-weight:600;font-size:.78rem;color:var(--muted)}
+td.lvl,th.lvl{text-align:right;font-weight:600;color:var(--ink);position:sticky;right:0;background:var(--surface)}
+th.lvl{background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+tfoot td{font-weight:700;background:var(--surface-2)}
+td input{width:70px;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);text-align:center;font-variant-numeric:tabular-nums}
+td input[readonly]{background:transparent;border-color:transparent}
+td input.err{border-color:var(--bad);background:var(--bad-bg)}
+td.wrap-text{white-space:normal;text-align:right;min-width:180px}
+.cell-ok{background:var(--ok-bg)} .cell-warn{background:var(--warn-bg)} .cell-bad{background:var(--bad-bg)}
+
+/* forms */
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px 14px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:.78rem;color:var(--muted);font-weight:500}
+.field input,.field select,.field textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.field textarea{resize:vertical;min-height:64px}
+.field.full{grid-column:1/-1}
+.hint{font-size:.76rem;color:var(--muted);margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:.85rem}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn.danger{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
+.btn.sm{padding:3px 10px;font-size:.78rem}
+.saved{font-size:.78rem;color:var(--ok);min-height:1.2em}
+
+/* sub-tabs */
+.subtabs{display:flex;flex-wrap:wrap;gap:6px}
+.subtabs button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:.84rem}
+.subtabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;background:var(--surface-2)}
+.tile span{font-size:.75rem;color:var(--muted);display:block}
+.tile strong{font-family:var(--f-display);font-size:1.25rem;font-variant-numeric:tabular-nums}
+
+/* official document */
+.doc{background:#fff;color:#111;border:1px solid var(--line);border-radius:4px;padding:28px 32px;font-family:"Noto Naskh Arabic","Traditional Arabic","IBM Plex Sans Arabic",serif;line-height:1.9;max-width:820px;margin:0 auto;width:100%}
+.doc .dh{display:flex;justify-content:space-between;gap:12px;font-size:.82rem;border-bottom:1.5px solid #111;padding-bottom:10px;margin-bottom:16px}
+.doc h2{text-align:center;font-size:1.25rem;margin:18px 0 10px;font-family:var(--f-display)}
+.doc table{font-size:.9rem;color:#111} .doc th{background:#eee;color:#111} .doc th,.doc td{border:1px solid #444}
+.doc .sign{display:flex;justify-content:space-between;margin-top:36px;gap:20px}
+.doc .sign div{text-align:center;min-width:160px}
+.doc .pb{border-top:1px dashed #999;margin:28px 0}
+
+/* overlay */
+.overlay{position:fixed;inset:0;background:rgb(0 0 0 / .45);display:grid;place-items:center;z-index:20;padding:16px}
+.overlay[hidden]{display:none}
+.dialog{background:var(--surface);border-radius:var(--r);padding:20px;max-width:420px;width:100%;display:grid;gap:14px;border:1px solid var(--line)}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:99px;font-size:.85rem;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
+
+.nav svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:none;pointer-events:none}
+.nav .sh{display:none}
+.nav button span{pointer-events:none}
+@media (max-width:700px){
+  .nav{position:fixed;top:auto;bottom:0;left:0;right:0;padding-bottom:env(safe-area-inset-bottom,0px);z-index:15}
+  .nav .wrap{justify-content:space-around;gap:0;padding-block:4px;overflow:visible}
+  .nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;font-size:.7rem;flex:1;min-width:0}
+  .nav svg{display:block}
+  .nav .lg{display:none} .nav .sh{display:inline}
+  main.wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .letterhead .official{display:none}
+  .headstats .hs{min-width:0;flex:1}
+  .headstats{width:100%}
+}
+[data-set="year"]{white-space:nowrap;unicode-bidi:isolate}
+#printArea{display:none}
+@media print{
+  body{background:#fff}
+  body > *:not(#printArea){display:none!important}
+  #printArea{display:block}
+  #printArea .doc{border:0;padding:0;max-width:none}
+  .doc .pb{border:0;page-break-after:always;margin:0}
+}
+</style>
+</head>
+<body>
+
+
+<div id="appRoot" dir="rtl" lang="ar">
+<header class="letterhead">
+  <div class="wrap">
+    <div class="official">
+      <b>المملكة المغربية</b><br>
+      وزارة التربية الوطنية والتعليم الأولي والرياضة<br>
+      <span data-set="aref"></span> – <span data-set="direction"></span>
+    </div>
+    <div class="school">
+      <h1 data-set="school"></h1>
+      <p>منظومة التدبير الاستراتيجي والقيادة · الموسم الدراسي <span data-set="year" dir="ltr"></span></p>
+    </div>
+    <div class="headstats">
+      <div class="hs"><span>الأقسام</span><strong class="num" id="hsSections">–</strong></div>
+      <div class="hs"><span>المستويات</span><strong class="num" id="hsLevels">–</strong></div>
+      <div class="hs"><span>التلاميذ</span><strong class="num" id="hsPupils">–</strong></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="وحدات المنظومة">
+  <div class="wrap" role="tablist">
+    <button role="tab" data-view="strategy" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span class="lg">لوحة القيادة الاستراتيجية</span><span class="sh">القيادة</span></button>
+    <button role="tab" data-view="data" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 9h16M9 9v11"/></svg><span class="lg">إدخال المعطيات</span><span class="sh">المعطيات</span></button>
+    <button role="tab" data-view="councils" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 20c0-3 3-5 6-5s6 2 6 5M14 15c3 0 8 1 8 5"/></svg><span class="lg">مجالس المؤسسة</span><span class="sh">المجالس</span></button>
+    <button role="tab" data-view="finance" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v12H3zM3 11h18M7 15h3"/></svg><span class="lg">الصرف المدرسي</span><span class="sh">الصرف</span></button>
+    <button role="tab" data-view="settings" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12h3M2 12h3M12 2v3M12 19v3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg><span class="lg">الإعدادات والنسخ الاحتياطي</span><span class="sh">الإعدادات</span></button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="frame-note" id="frameNote" hidden>تعمل الطباعة وتصدير ملفات Excel وPDF عند فتح الملف المحفوظ على حاسوبك مباشرة في المتصفح. أما هنا فيمكنك الإدخال والمعاينة، وتُحفظ المعطيات في هذا المتصفح.</div>
+
+  <!-- ============ STRATEGY ============ -->
+  <section class="view" id="view-strategy">
+    <div class="panel-head" style="margin:0">
+      <h2>الأهداف الاستراتيجية لمشروع المؤسسة</h2>
+      <span class="pill info" id="periodPill"></span>
+      <p>المنشود: التحكم في التعلمات 85% فما فوق · مضاعفة الحياة المدرسية · تقليص الهدر المدرسي بالثلث. تُحتسب القيم الحالية تلقائيًا من «إدخال المعطيات».</p>
+    </div>
+    <div class="goals" id="goals"></div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>المجالات التي تتطلب التدخل</h2><p>تظهر خطة التدخل لكل مؤشر لم يبلغ القيمة المنشودة.</p></div>
+      <div class="interventions" id="interventions"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel"><div class="panel-head"><h3>نسب التحكم حسب المستوى والمادة</h3></div><div class="chart-box"><canvas id="chLearning"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><h3>مكونات الهدر حسب المستوى</h3></div><div class="chart-box"><canvas id="chWaste"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><h3>تطور نسبة الغياب الشهرية</h3></div><div class="chart-box"><canvas id="chAbsence"></canvas></div></div>
+      <div class="panel"><div class="panel-head"><h3>المشاركة في أنشطة الحياة المدرسية حسب المستوى</h3></div><div class="chart-box"><canvas id="chLife"></canvas></div></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>تفاصيل المؤشرات حسب المستوى</h2></div>
+      <div class="tbl-wrap"><table id="tblIndicators"></table></div>
+    </div>
+  </section>
+
+  <!-- ============ DATA ============ -->
+  <section class="view" id="view-data" hidden>
+    <div class="panel">
+      <div class="panel-head">
+        <h2>البنية التربوية</h2>
+        <div class="btns"><button class="btn sm" id="btnEditStructure">تعديل البنية</button></div>
+        <p>أعداد التلاميذ حسب الأقسام كما هي معتمدة. تبقى مقفلة إلا عند الضغط على «تعديل البنية».</p>
+      </div>
+      <div class="tbl-wrap"><table id="tblStructure"></table></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>مؤشرات المستويات</h2>
+        <span class="saved" id="savedNote"></span>
+        <p>أدخل الأعداد (لا النسب)، وتُحتسب النسب تلقائيًا. الخانة الفارغة تعني «غير مدخل» ولا تُحتسب صفرًا. يُحفظ كل إدخال فورًا.</p>
+      </div>
+      <div class="tbl-wrap"><table id="tblLevels"></table></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h3>معطيات على مستوى المؤسسة</h3></div>
+        <div class="fields">
+          <div class="field"><label for="sc_boys">عدد الذكور</label><input type="number" min="0" id="sc_boys" data-school="boys"></div>
+          <div class="field"><label for="sc_girls">عدد الإناث</label><input type="number" min="0" id="sc_girls" data-school="girls"></div>
+          <div class="field"><label for="sc_activities">عدد الأنشطة المنجزة</label><input type="number" min="0" id="sc_activities" data-school="activities"></div>
+          <div class="field"><label for="sc_adapt">نسبة التكييف البيداغوجي للتلاميذ في وضعية إعاقة (%)</label><input type="number" min="0" max="100" id="sc_adapt" data-school="adapt"></div>
+          <div class="field"><label for="sc_tools">نسبة توفر الوسائل المساعدة (%)</label><input type="number" min="0" max="100" id="sc_tools" data-school="tools"></div>
+          <div class="field"><label for="sc_period">فترة التتبع</label><input type="text" id="sc_period" data-school="period" placeholder="مثال: الأسدس الأول / شهر مارس"></div>
+        </div>
+        <p class="hint" id="genderCheck"></p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>نسبة الغياب الشهرية (%)</h3></div>
+        <div class="fields" id="absenceFields"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>القيم المرجعية والمنشودة</h2>
+        <p>القيمة المرجعية هي وضعية الانطلاق في مشروع المؤسسة. تُحتسب القيم المنشودة منها: مضاعفة الأنشطة والمشاركين، وتقليص الهدر والمهددين بالثلث.</p>
+      </div>
+      <div class="fields">
+        <div class="field"><label for="b_learn">التحكم في التعلمات – المرجع (%)</label><input type="number" step="0.1" id="b_learn" data-base="learn"></div>
+        <div class="field"><label for="t_learn">التحكم في التعلمات – المنشود (%)</label><input type="number" step="0.1" id="t_learn" data-target="learn"></div>
+        <div class="field"><label for="b_activities">عدد الأنشطة – المرجع</label><input type="number" id="b_activities" data-base="activities"></div>
+        <div class="field"><label for="b_participants">عدد المشاركين – المرجع</label><input type="number" id="b_participants" data-base="participants"></div>
+        <div class="field"><label for="b_waste">نسبة الهدر – المرجع (%)</label><input type="number" step="0.1" id="b_waste" data-base="waste"></div>
+        <div class="field"><label for="b_threatened">المهددون بالهدر – المرجع</label><input type="number" id="b_threatened" data-base="threatened"></div>
+        <div class="field"><label for="t_adapt">التكييف البيداغوجي – المنشود (%)</label><input type="number" id="t_adapt" data-target="adapt"></div>
+        <div class="field"><label for="t_tools">الوسائل المساعدة – المنشود (%)</label><input type="number" id="t_tools" data-target="tools"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>تبادل المعطيات مع Excel</h2>
+        <p>يُصدَّر جدول المؤشرات في ملف Excel، ويمكن تعديله ثم استيراده بالبنية نفسها. ويُقرأ ملف لائحة التلاميذ المستخرج من منظومة مسار (ورقة لكل قسم) لاحتساب العدد والجنس.</p></div>
+      <div class="btns">
+        <button class="btn primary" id="btnExportLevels">تصدير المؤشرات إلى Excel</button>
+        <button class="btn" id="btnImportLevels">استيراد المؤشرات من Excel</button>
+        <button class="btn" id="btnImportMassar">قراءة لائحة التلاميذ (مسار)</button>
+      </div>
+      <input type="file" id="fileLevels" accept=".xlsx,.xls" hidden>
+      <input type="file" id="fileMassar" accept=".xlsx,.xls" hidden>
+      <div id="massarResult"></div>
+    </div>
+  </section>
+
+  <!-- ============ COUNCILS ============ -->
+  <section class="view" id="view-councils" hidden>
+    <div class="tiles" id="councilTiles"></div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h2 id="meetingFormTitle">تسجيل اجتماع</h2></div>
+        <form id="meetingForm" class="fields" autocomplete="off">
+          <input type="hidden" id="m_id">
+          <div class="field"><label for="m_council">المجلس</label><select id="m_council" required></select></div>
+          <div class="field"><label for="m_date">التاريخ</label><input type="date" id="m_date" required></div>
+          <div class="field"><label for="m_time">الساعة</label><input type="time" id="m_time"></div>
+          <div class="field"><label for="m_place">المكان</label><input type="text" id="m_place" placeholder="مثال: قاعة الاجتماعات بالمؤسسة"></div>
+          <div class="field full"><label for="m_agenda">جدول الأعمال (نقطة في كل سطر)</label><textarea id="m_agenda" rows="3" required></textarea></div>
+          <div class="field full"><label for="m_attendees">لائحة الأعضاء (اسم وصفة في كل سطر)</label><textarea id="m_attendees" rows="4"></textarea></div>
+          <div class="field full"><label for="m_decisions">القرارات والتوصيات (قرار في كل سطر)</label><textarea id="m_decisions" rows="3"></textarea></div>
+          <div class="field"><label for="m_president">رئيس المجلس</label><input type="text" id="m_president"></div>
+          <div class="field"><label for="m_secretary">مقرر الجلسة</label><input type="text" id="m_secretary"></div>
+          <div class="btns full field"><button class="btn primary" type="submit">حفظ الاجتماع</button><button class="btn" type="button" id="m_reset">إفراغ الاستمارة</button></div>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>سجل الاجتماعات</h2></div>
+        <div class="fields" style="margin-bottom:10px">
+          <div class="field"><label for="m_filter">تصفية حسب المجلس</label><select id="m_filter"></select></div>
+          <div class="field"><label for="m_search">بحث</label><input type="search" id="m_search" placeholder="جدول الأعمال، الرئيس، التاريخ…"></div>
+        </div>
+        <div class="tbl-wrap"><table id="tblMeetings"></table></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>الوثائق الرسمية للاجتماع</h2>
+        <div class="btns"><button class="btn primary" id="btnPrintMeeting">طباعة الوثائق</button></div>
+        <p>استدعاء، ولائحة الحضور والتوقيع، ومحضر الاجتماع. اختر اجتماعًا من السجل لعرض وثائقه.</p></div>
+      <div id="meetingDoc"></div>
+    </div>
+  </section>
+
+  <!-- ============ FINANCE ============ -->
+  <section class="view" id="view-finance" hidden>
+    <div class="subtabs" role="tablist" id="finTabs"></div>
+    <div id="finAssoc" class="view">
+      <div class="tiles" id="finTiles"></div>
+      <div class="panel">
+        <div class="panel-head"><h2 id="finOpsTitle">العمليات</h2><p>تُضاف العمليات وتُعدّل مباشرة في الجدول. تُعرض جميعها مجمعة في «مشروع المؤسسة».</p></div>
+        <form id="opForm" class="fields" autocomplete="off" style="margin-bottom:12px">
+          <div class="field"><label for="op_subject">موضوع العملية</label><input type="text" id="op_subject" required></div>
+          <div class="field"><label for="op_date">تاريخ الإنجاز</label><input type="date" id="op_date" required></div>
+          <div class="field"><label for="op_amount">المبلغ (درهم)</label><input type="number" step="0.01" min="0" id="op_amount" required></div>
+          <div class="field"><label for="op_mech">آلية الصرف</label><select id="op_mech"></select></div>
+          <div class="field"><label for="op_ref">مرجع الفاتورة / شهادة التسلم</label><input type="text" id="op_ref"></div>
+          <div class="field"><label for="op_notes">ملاحظات</label><input type="text" id="op_notes"></div>
+          <div class="field" style="align-self:end"><button class="btn primary" type="submit">إضافة العملية</button></div>
+        </form>
+        <div class="tbl-wrap"><table id="tblOps"></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2>التقارير</h2>
+          <div class="btns"><button class="btn primary" id="btnFinReport">التقرير المالي</button><button class="btn" id="btnLitReport">التقرير الأدبي</button><button class="btn" id="btnPrintReport">طباعة التقرير المعروض</button></div></div>
+        <div id="finReport"></div>
+      </div>
+    </div>
+    <div id="finProject" class="view" hidden>
+      <div class="panel">
+        <div class="panel-head"><h2>مشروع المؤسسة: خلاصة الصرف حسب الجمعية وآلية الصرف</h2></div>
+        <div class="tbl-wrap"><table id="tblMatrix"></table></div>
+      </div>
+      <div class="grid-2">
+        <div class="panel"><div class="panel-head"><h3>توزيع المبالغ حسب الجمعية</h3></div><div class="chart-box"><canvas id="chFinance"></canvas></div></div>
+        <div class="panel"><div class="panel-head"><h3>آخر العمليات</h3></div><div class="tbl-wrap"><table id="tblRecent"></table></div></div>
+      </div>
+      <div id="mechTables" class="view"></div>
+      <div class="btns"><button class="btn primary" id="btnExportFinance">تصدير جميع العمليات إلى Excel</button></div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="view" id="view-settings" hidden>
+    <div class="panel">
+      <div class="panel-head"><h2>معلومات المؤسسة</h2><p>تظهر هذه المعلومات في رأسية المنظومة وفي الوثائق الرسمية.</p></div>
+      <div class="fields">
+        <div class="field"><label for="s_school">اسم المؤسسة</label><input type="text" id="s_school" data-setting="school"></div>
+        <div class="field"><label for="s_director">مدير المؤسسة</label><input type="text" id="s_director" data-setting="director"></div>
+        <div class="field"><label for="s_aref">الأكاديمية الجهوية</label><input type="text" id="s_aref" data-setting="aref"></div>
+        <div class="field"><label for="s_direction">المديرية الإقليمية</label><input type="text" id="s_direction" data-setting="direction"></div>
+        <div class="field"><label for="s_year">الموسم الدراسي</label><input type="text" id="s_year" data-setting="year"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>النسخ الاحتياطي</h2><p>تُحفظ المعطيات في هذا المتصفح فقط. احفظ نسخة احتياطية بانتظام لنقلها إلى حاسوب آخر أو استرجاعها.</p></div>
+      <div class="btns">
+        <button class="btn primary" id="btnBackup">تنزيل نسخة احتياطية كاملة (JSON)</button>
+        <button class="btn" id="btnRestore">استرجاع نسخة احتياطية</button>
+        <button class="btn" id="btnExportAll">تصدير شامل إلى Excel</button>
+        <button class="btn danger" id="btnResetAll">مسح جميع المعطيات</button>
+      </div>
+      <input type="file" id="fileRestore" accept=".json" hidden>
+    </div>
+  </section>
+</main>
+
+<div class="overlay" id="confirmBox" hidden>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmText">
+    <p id="confirmText" style="margin:0;font-weight:600"></p>
+    <div class="btns"><button class="btn danger" id="confirmYes">تأكيد</button><button class="btn" id="confirmNo">إلغاء</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+</div>
+<div id="printArea" dir="rtl" lang="ar"></div>
+
+<script src="lib/chart.umd.js"></script>
+<script src="lib/xlsx.full.min.js"></script>
+<script>
+(function(){
+document.documentElement.lang = 'ar';
+document.documentElement.dir = 'rtl';
+
+/* ---------- constants (official structure from the latest version, 29/03/2026) ---------- */
+const LEVELS = ["التعليم الأولي PS2-1","التعليم الأولي DEPE-PS1","الأولى ابتدائي","الثانية ابتدائي","الثالثة ابتدائي","الرابعة ابتدائي","الخامسة ابتدائي","السادسة ابتدائي"];
+const SHORT = {"التعليم الأولي PS2-1":"أولي PS2-1","التعليم الأولي DEPE-PS1":"أولي DEPE-PS1","الأولى ابتدائي":"الأولى","الثانية ابتدائي":"الثانية","الثالثة ابتدائي":"الثالثة","الرابعة ابتدائي":"الرابعة","الخامسة ابتدائي":"الخامسة","السادسة ابتدائي":"السادسة"};
+const STRUCTURE = {
+  "التعليم الأولي PS2-1":[26], "التعليم الأولي DEPE-PS1":[20],
+  "الأولى ابتدائي":[35,37,36,35,33], "الثانية ابتدائي":[38,36,33,34,36],
+  "الثالثة ابتدائي":[43,43,42,42], "الرابعة ابتدائي":[37,38,37,37,37],
+  "الخامسة ابتدائي":[42,40,38,40], "السادسة ابتدائي":[37,34,38,37,36]
+};
+const LEVEL_FIELDS = [
+  {k:"dropout", l:"المنقطعون", g:"الهدر"},
+  {k:"nonEnroll", l:"غير الملتحقين", g:"الهدر"},
+  {k:"expelled", l:"المفصولون", g:"الهدر"},
+  {k:"threatened", l:"المهددون بالهدر", g:"الهدر"},
+  {k:"ar", l:"المتحكمون عربية", g:"التعلمات", cap:true},
+  {k:"fr", l:"المتحكمون فرنسية", g:"التعلمات", cap:true},
+  {k:"ma", l:"المتحكمون رياضيات", g:"التعلمات", cap:true},
+  {k:"participants", l:"المشاركون في الأنشطة", g:"الحياة المدرسية", cap:true},
+  {k:"disabled", l:"في وضعية إعاقة", g:"التربية الدامجة", cap:true}
+];
+const MONTHS = ["شتنبر","أكتوبر","نونبر","دجنبر","يناير","فبراير","مارس","أبريل","ماي","يونيو"];
+const COUNCILS = ["مجلس التدبير","المجلس التربوي","المجلس التعليمي (اللغة العربية)","المجلس التعليمي (اللغة الفرنسية)","مجالس الأقسام"];
+const ASSOCS = [
+  {k:"najah", name:"جمعية دعم مدرسة النجاح", prefix:"N", c:"--c1"},
+  {k:"sport", name:"الجمعية الرياضية المدرسية", prefix:"R", c:"--c2"},
+  {k:"coop",  name:"جمعية التعاون المدرسي", prefix:"T", c:"--c3"}
+];
+const MECHS = ["سند الطلب","سند الصندوق","اتفاقية شراكة"];
+const STORE_KEY = "imamShafii_unified_v1";
+
+function defaults(){
+  const levels = {}; LEVELS.forEach(l => { levels[l] = {}; LEVEL_FIELDS.forEach(f => levels[l][f.k] = null); });
+  return {
+    settings:{ school:"مدرسة الإمام الشافعي – الدراركة", director:"عبدلا العبضلاوي",
+      aref:"الأكاديمية الجهوية للتربية والتكوين لجهة سوس ماسة", direction:"المديرية الإقليمية أكادير إداوتنان", year:"2025-2026" },
+    structure: JSON.parse(JSON.stringify(STRUCTURE)),
+    levels,
+    school:{ boys:null, girls:null, activities:null, adapt:null, tools:null, period:"" },
+    absence:{},
+    base:{ learn:null, activities:null, participants:null, waste:null, threatened:null },
+    targets:{ learn:85, adapt:95, tools:90 },
+    meetings:[],
+    finance:{ najah:[], sport:[], coop:[] }
+  };
+}
+let S = defaults();
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(raw){ const p = JSON.parse(raw); S = merge(defaults(), p); }
+  }catch(e){}
+}
+function merge(d, p){
+  for(const k in p){
+    if(p[k] && typeof p[k]==="object" && !Array.isArray(p[k]) && d[k] && typeof d[k]==="object" && !Array.isArray(d[k])) d[k] = merge(d[k], p[k]);
+    else d[k] = p[k];
+  }
+  return d;
+}
+let saveTimer;
+function save(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){}
+  const n = document.getElementById('savedNote'); if(n){ n.textContent = "✓ تم الحفظ"; clearTimeout(saveTimer); saveTimer = setTimeout(()=>n.textContent="",1500); }
+}
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const isNum = v => v !== null && v !== "" && v !== undefined && !isNaN(v);
+const pct = (v, d=1) => isNum(v) ? fmt(v,d)+"%" : "–";
+const fmt = (v, d=1) => isNum(v) ? Number(v).toFixed(d).replace(/\.0+$/,"") : "–";
+const money = v => Number(v||0).toLocaleString("fr-MA",{minimumFractionDigits:2,maximumFractionDigits:2}) + " درهم";
+const dmy = iso => { if(!iso) return "–"; const [y,m,d] = iso.split("-"); return `${d}/${m}/${y}`; };
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2600); }
+function confirmBox(text){ return new Promise(res=>{ $('confirmText').textContent=text; $('confirmBox').hidden=false;
+  const done=v=>{ $('confirmBox').hidden=true; $('confirmYes').onclick=$('confirmNo').onclick=null; res(v); };
+  $('confirmYes').onclick=()=>done(true); $('confirmNo').onclick=()=>done(false); $('confirmYes').focus(); }); }
+let framed=false; try{ framed = window.self !== window.top; }catch(e){ framed = true; }
+if(framed) $('frameNote').hidden = false;
+function download(name, blobOrWb){
+  if(blobOrWb instanceof Blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blobOrWb); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+  else XLSX.writeFile(blobOrWb, name);
+  if(framed) toast("التنزيل متاح عند فتح الملف المحفوظ على حاسوبك");
+}
+function printHTML(html){
+  if(!html){ toast("لا توجد وثيقة معروضة للطباعة"); return; }
+  $('printArea').innerHTML = html; window.print();
+  if(framed) toast("الطباعة متاحة عند فتح الملف المحفوظ على حاسوبك");
+}
+
+/* ---------- calculations ---------- */
+const levelTotal = l => S.structure[l].reduce((a,b)=>a+(+b||0),0);
+const pupils = () => LEVELS.reduce((s,l)=>s+levelTotal(l),0);
+const sectionsCount = () => LEVELS.reduce((s,l)=>s+S.structure[l].length,0);
+function sumField(k){ let s=0, any=false; LEVELS.forEach(l=>{ const v=S.levels[l][k]; if(isNum(v)){ s+=+v; any=true; } }); return any? s : null; }
+function pctOf(n, d){ return isNum(n) && d>0 ? n/d*100 : null; }
+function levelSubjectPct(l, k){ return pctOf(S.levels[l][k], levelTotal(l)); }
+function levelLearn(l){ const vals=["ar","fr","ma"].map(k=>levelSubjectPct(l,k)).filter(isNum); return vals.length? vals.reduce((a,b)=>a+b,0)/vals.length : null; }
+function learnRate(){ // weighted by entered subject counts
+  let ctrl=0, base=0; LEVELS.forEach(l=>{ ["ar","fr","ma"].forEach(k=>{ const v=S.levels[l][k]; if(isNum(v)){ ctrl+=+v; base+=levelTotal(l); } }); });
+  return base>0 ? ctrl/base*100 : null;
+}
+function subjectRate(k){ let c=0,b=0; LEVELS.forEach(l=>{ const v=S.levels[l][k]; if(isNum(v)){ c+=+v; b+=levelTotal(l);} }); return b>0? c/b*100 : null; }
+function wasteCount(){ const parts=["dropout","nonEnroll","expelled"].map(sumField); return parts.some(isNum) ? parts.reduce((a,b)=>a+(b||0),0) : null; }
+function levelWaste(l){ const p=["dropout","nonEnroll","expelled"].map(k=>S.levels[l][k]); return p.some(isNum)? p.reduce((a,b)=>a+(+b||0),0) : null; }
+
+/* ---------- header / settings binding ---------- */
+function renderHeader(){
+  document.querySelectorAll('[data-set]').forEach(el=>el.textContent = S.settings[el.dataset.set] || "");
+  $('hsSections').textContent = sectionsCount(); $('hsLevels').textContent = LEVELS.length; $('hsPupils').textContent = pupils();
+  $('periodPill').textContent = S.school.period ? "فترة التتبع: " + S.school.period : "حدد فترة التتبع في «إدخال المعطيات»";
+  $('periodPill').className = "pill " + (S.school.period ? "info" : "none");
+}
+
+/* ---------- STRATEGY ---------- */
+function status(kind, v, t, extra){
+  if(!isNum(v)) return ["none","غير مدخل"];
+  if(kind==="higher"){ if(!isNum(t)) return ["info","حدد المنشود"]; if(v>=t) return ["ok","محقق"]; if(v>=t*0.85) return ["warn","قريب من المنشود"]; return ["bad","يتطلب تدخلا"]; }
+  if(kind==="lower"){ if(!isNum(t)) return ["info","حدد المرجع"]; if(v<=t) return ["ok","محقق"]; if(isNum(extra) && v<extra) return ["warn","في تحسن"]; return ["bad","يتطلب تدخلا"]; }
+}
+function meter(v, t, max=100){
+  const w = isNum(v)? Math.max(0,Math.min(100, v/max*100)) : 0;
+  const m = isNum(t)? `<b style="right:${Math.min(100,t/max*100)}%"></b>` : "";
+  return `<div class="meter" role="img" aria-label="${fmt(v)} من ${fmt(t)}"><i style="width:${w}%"></i>${m}</div>`;
+}
+function renderGoals(){
+  const tot = pupils();
+  const L = learnRate(), tL = S.targets.learn;
+  const parts = sumField("participants"), partPct = pctOf(parts, tot), acts = S.school.activities;
+  const tActs = isNum(S.base.activities)? S.base.activities*2 : null, tParts = isNum(S.base.participants)? S.base.participants*2 : null;
+  const W = wasteCount(), wPct = pctOf(W, tot), tW = isNum(S.base.waste)? S.base.waste*2/3 : null;
+  const thr = sumField("threatened"), tThr = isNum(S.base.threatened)? Math.round(S.base.threatened*2/3) : null;
+  const dis = sumField("disabled");
+  const sL = status("higher", L, tL);
+  const sLife = status("higher", isNum(parts)? parts : null, tParts);
+  const sW = status("lower", wPct, tW, S.base.waste);
+  const sD = status("higher", S.school.adapt, S.targets.adapt);
+  $('goals').innerHTML = `
+  <article class="goal" style="--gc:var(--c1)">
+    <header><h3>التحكم في التعلمات</h3><span class="pill ${sL[0]}">${sL[1]}</span></header>
+    <div class="big num">${fmt(L)}<small> %</small></div>
+    ${meter(L, tL)}
+    <div class="target">المنشود: ${fmt(tL)}% فما فوق${isNum(S.base.learn)?` · المرجع: ${fmt(S.base.learn)}%`:""}</div>
+    <dl class="kv"><dt>اللغة العربية</dt><dd>${pct(subjectRate("ar"))}</dd><dt>اللغة الفرنسية</dt><dd>${pct(subjectRate("fr"))}</dd><dt>الرياضيات</dt><dd>${pct(subjectRate("ma"))}</dd></dl>
+  </article>
+  <article class="goal" style="--gc:var(--c3)">
+    <header><h3>الحياة المدرسية</h3><span class="pill ${sLife[0]}">${sLife[1]}</span></header>
+    <div class="big num">${fmt(partPct)}<small> % مشاركة</small></div>
+    ${meter(parts, tParts, Math.max(tParts||0, parts||0, 1))}
+    <div class="target">المنشود: مضاعفة عدد الأنشطة والمشاركين</div>
+    <dl class="kv"><dt>الأنشطة المنجزة</dt><dd>${fmt(acts,0)} / ${fmt(tActs,0)}</dd><dt>المشاركون</dt><dd>${fmt(parts,0)} / ${fmt(tParts,0)}</dd></dl>
+  </article>
+  <article class="goal" style="--gc:var(--c4)">
+    <header><h3>الهدر المدرسي</h3><span class="pill ${sW[0]}">${sW[1]}</span></header>
+    <div class="big num">${fmt(wPct,2)}<small> %</small></div>
+    ${meter(wPct, tW, Math.max(10, (wPct||0)*1.2, S.base.waste||0))}
+    <div class="target">المنشود: تقليص بالثلث${isNum(tW)?` ← ${fmt(tW,2)}%`:""}${isNum(S.base.waste)?` · المرجع: ${fmt(S.base.waste,2)}%`:""}</div>
+    <dl class="kv"><dt>المنقطعون / غير الملتحقين / المفصولون</dt><dd>${fmt(sumField("dropout"),0)} / ${fmt(sumField("nonEnroll"),0)} / ${fmt(sumField("expelled"),0)}</dd><dt>المهددون بالهدر</dt><dd>${fmt(thr,0)}${isNum(tThr)?` (المنشود ${tThr})`:""}</dd></dl>
+  </article>
+  <article class="goal" style="--gc:var(--c5)">
+    <header><h3>التربية الدامجة</h3><span class="pill ${sD[0]}">${sD[1]}</span></header>
+    <div class="big num">${fmt(dis,0)}<small> تلميذ في وضعية إعاقة</small></div>
+    ${meter(S.school.adapt, S.targets.adapt)}
+    <dl class="kv"><dt>التكييف البيداغوجي</dt><dd>${pct(S.school.adapt)} / ${fmt(S.targets.adapt)}%</dd><dt>الوسائل المساعدة</dt><dd>${pct(S.school.tools)} / ${fmt(S.targets.tools)}%</dd></dl>
+  </article>`;
+  // interventions
+  const iv = [];
+  if(isNum(L) && L < tL) iv.push({t:"التحكم في التعلمات", bad:L<70, cur:`${fmt(L)}%`, tg:`${fmt(tL)}%`, a:["حصص الدعم والتقوية في المواد الأساسية","موارد تعليمية رقمية تفاعلية","تتبع فردي للتلاميذ المتعثرين","لقاءات تواصلية مع الأمهات والآباء وأولياء الأمور"]});
+  if(isNum(parts) && isNum(tParts) && parts < tParts) iv.push({t:"الحياة المدرسية", bad:parts<tParts*0.6, cur:`${fmt(parts,0)} مشارك · ${fmt(acts,0)} نشاط`, tg:`${fmt(tParts,0)} مشارك · ${fmt(tActs,0)} نشاط`, a:["إحداث أندية تربوية جديدة","مسابقات ثقافية ورياضية شهرية","نظام تحفيز على المشاركة","إشراك الأمهات والآباء في الأنشطة"]});
+  if(isNum(wPct) && isNum(tW) && wPct > tW) iv.push({t:"الهدر المدرسي", bad:!(isNum(S.base.waste)&&wPct<S.base.waste), cur:`${fmt(wPct,2)}% · ${fmt(thr,0)} مهدد`, tg:`${fmt(tW,2)}%${isNum(tThr)?` · ${tThr} مهدد`:""}`, a:["تتبع التلاميذ المهددين بالانقطاع","خلية الإنصات والوساطة","تتبع الغياب بشكل يومي والتواصل مع الأسر","الاستفادة من برامج الدعم الاجتماعي"]});
+  if((isNum(S.school.adapt) && S.school.adapt < S.targets.adapt) || (isNum(S.school.tools) && S.school.tools < S.targets.tools)) iv.push({t:"التربية الدامجة", bad:S.school.adapt<80, cur:`تكييف ${pct(S.school.adapt)} · وسائل ${pct(S.school.tools)}`, tg:`تكييف ${fmt(S.targets.adapt)}% · وسائل ${fmt(S.targets.tools)}%`, a:["توفير وسائل مساعدة ملائمة","تكوين الأساتذة في التربية الدامجة","حصص دعم فردي","تهيئة الفضاءات"]});
+  $('interventions').innerHTML = iv.length ? iv.map(i=>`<div class="iv ${i.bad?'bad':''}"><strong>${i.t}</strong> <span class="pill ${i.bad?'bad':'warn'}">${i.bad?'حرج':'متوسط'}</span>
+    <dl class="kv" style="margin:6px 0 0;max-width:340px"><dt>الحالي</dt><dd>${i.cur}</dd><dt>المنشود</dt><dd>${i.tg}</dd></dl><ul>${i.a.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("")
+    : `<div class="empty">لا يوجد مؤشر دون المنشود، أو لم تُدخل المعطيات والقيم المرجعية بعد.</div>`;
+}
+function renderIndicatorTable(){
+  let h = `<thead><tr><th class="lvl">المستوى</th><th>الأقسام</th><th>التلاميذ</th><th>المنقطعون</th><th>غير الملتحقين</th><th>المفصولون</th><th>نسبة الهدر</th><th>المهددون</th><th>عربية</th><th>فرنسية</th><th>رياضيات</th><th>معدل التحكم</th><th>المشاركة</th><th>إعاقة</th></tr></thead><tbody>`;
+  LEVELS.forEach(l=>{ const d=S.levels[l], t=levelTotal(l), lw=levelWaste(l), ll=levelLearn(l);
+    const cls = !isNum(ll)? "" : ll>=85? "cell-ok" : ll>=50? "cell-warn" : "cell-bad";
+    h += `<tr><td class="lvl">${l}</td><td>${S.structure[l].length}</td><td>${t}</td><td>${fmt(d.dropout,0)}</td><td>${fmt(d.nonEnroll,0)}</td><td>${fmt(d.expelled,0)}</td><td>${isNum(lw)?fmt(lw/t*100,2)+"%":"–"}</td><td>${fmt(d.threatened,0)}</td>
+      <td>${isNum(levelSubjectPct(l,"ar"))?fmt(levelSubjectPct(l,"ar"))+"%":"–"}</td><td>${isNum(levelSubjectPct(l,"fr"))?fmt(levelSubjectPct(l,"fr"))+"%":"–"}</td><td>${isNum(levelSubjectPct(l,"ma"))?fmt(levelSubjectPct(l,"ma"))+"%":"–"}</td>
+      <td class="${cls}">${isNum(ll)?fmt(ll)+"%":"–"}</td><td>${isNum(d.participants)?fmt(d.participants/t*100)+"%":"–"}</td><td>${fmt(d.disabled,0)}</td></tr>`; });
+  const W=wasteCount(), tot=pupils(), L=learnRate(), P=sumField("participants");
+  h += `</tbody><tfoot><tr><td class="lvl">المجموع</td><td>${sectionsCount()}</td><td>${tot}</td><td>${fmt(sumField("dropout"),0)}</td><td>${fmt(sumField("nonEnroll"),0)}</td><td>${fmt(sumField("expelled"),0)}</td><td>${isNum(W)?fmt(W/tot*100,2)+"%":"–"}</td><td>${fmt(sumField("threatened"),0)}</td><td>${isNum(subjectRate("ar"))?fmt(subjectRate("ar"))+"%":"–"}</td><td>${isNum(subjectRate("fr"))?fmt(subjectRate("fr"))+"%":"–"}</td><td>${isNum(subjectRate("ma"))?fmt(subjectRate("ma"))+"%":"–"}</td><td>${isNum(L)?fmt(L)+"%":"–"}</td><td>${isNum(P)?fmt(P/tot*100)+"%":"–"}</td><td>${fmt(sumField("disabled"),0)}</td></tr></tfoot>`;
+  $('tblIndicators').innerHTML = h;
+}
+const charts = {};
+function chart(id, cfg){
+  if(typeof Chart === "undefined") return;
+  if(charts[id]) charts[id].destroy();
+  const ink = cssVar('--muted'), line = cssVar('--line');
+  Chart.defaults.font.family = cssVar('--f-body');
+  Chart.defaults.color = ink;
+  cfg.options = Object.assign({responsive:true, maintainAspectRatio:false, animation:false, layout:{padding:{left:24}},
+    plugins:{legend:{position:"bottom", rtl:true, labels:{boxWidth:12}}, tooltip:{rtl:true}}}, cfg.options||{});
+  if(cfg.options.plugins && !cfg.options.plugins.tooltip) cfg.options.plugins.tooltip={rtl:true};
+  if(cfg.options.plugins && cfg.options.plugins.legend) cfg.options.plugins.legend.rtl=true;
+  if(cfg.options.scales){ for(const ax in cfg.options.scales){ cfg.options.scales[ax].grid = {color:line}; }
+    if(cfg.options.scales.x) cfg.options.scales.x.reverse = true;
+    if(cfg.options.scales.y) cfg.options.scales.y.position = "right"; }
+  charts[id] = new Chart($(id), cfg);
+}
+function renderCharts(){
+  const labels = LEVELS.map(l=>SHORT[l]);
+  chart('chLearning',{type:"bar",data:{labels,datasets:[
+    {label:"عربية",data:LEVELS.map(l=>levelSubjectPct(l,"ar")),backgroundColor:cssVar('--c1')},
+    {label:"فرنسية",data:LEVELS.map(l=>levelSubjectPct(l,"fr")),backgroundColor:cssVar('--c2')},
+    {label:"رياضيات",data:LEVELS.map(l=>levelSubjectPct(l,"ma")),backgroundColor:cssVar('--c3')}]},
+    options:{scales:{y:{min:0,max:100,ticks:{callback:v=>v+"%"}},x:{}}}});
+  chart('chWaste',{type:"bar",data:{labels,datasets:[
+    {label:"المنقطعون",data:LEVELS.map(l=>S.levels[l].dropout),backgroundColor:cssVar('--c4')},
+    {label:"غير الملتحقين",data:LEVELS.map(l=>S.levels[l].nonEnroll),backgroundColor:cssVar('--c3')},
+    {label:"المفصولون",data:LEVELS.map(l=>S.levels[l].expelled),backgroundColor:cssVar('--c5')},
+    {label:"المهددون",data:LEVELS.map(l=>S.levels[l].threatened),backgroundColor:cssVar('--c2'),stack:"t"}]},
+    options:{scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{precision:0}}}}});
+  chart('chAbsence',{type:"line",data:{labels:MONTHS,datasets:[{label:"نسبة الغياب %",data:MONTHS.map(m=>isNum(S.absence[m])?+S.absence[m]:null),borderColor:cssVar('--c4'),backgroundColor:cssVar('--c4'),spanGaps:true,tension:.3,pointRadius:4}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v+"%"}},x:{}}}});
+  chart('chLife',{type:"bar",data:{labels,datasets:[{label:"نسبة المشاركة %",data:LEVELS.map(l=>pctOf(S.levels[l].participants, levelTotal(l))),backgroundColor:cssVar('--c3')}]},
+    options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+"%"}},x:{}}}});
+}
+function renderStrategy(){ renderGoals(); renderIndicatorTable(); renderCharts(); }
+
+/* ---------- DATA ---------- */
+let structureEditable = false;
+function renderStructure(){
+  const max = Math.max(...LEVELS.map(l=>S.structure[l].length));
+  let h = `<thead><tr><th class="lvl">المستوى</th>${Array.from({length:max},(_,i)=>`<th>ق${i+1}</th>`).join("")}<th>الأقسام</th><th>المجموع</th>${structureEditable?"<th></th>":""}</tr></thead><tbody>`;
+  LEVELS.forEach(l=>{ const arr=S.structure[l];
+    h += `<tr><td class="lvl">${l}</td>${Array.from({length:max},(_,i)=> i<arr.length ? `<td><input type="number" min="0" id="st_${LEVELS.indexOf(l)}_${i}" data-st="${l}" data-i="${i}" value="${arr[i]}" ${structureEditable?"":"readonly"} aria-label="${l} قسم ${i+1}"></td>` : "<td></td>").join("")}
+    <td>${arr.length}</td><td><strong class="num">${levelTotal(l)}</strong></td>${structureEditable?`<td><button class="btn sm" data-addsec="${l}">+ قسم</button> <button class="btn sm danger" data-delsec="${l}" ${arr.length<2?"disabled":""}>− قسم</button></td>`:""}</tr>`; });
+  h += `</tbody><tfoot><tr><td class="lvl">المجموع</td><td colspan="${max}"></td><td>${sectionsCount()}</td><td>${pupils()}</td>${structureEditable?"<td></td>":""}</tr></tfoot>`;
+  $('tblStructure').innerHTML = h;
+  $('btnEditStructure').textContent = structureEditable ? "إنهاء التعديل" : "تعديل البنية";
+}
+function renderLevelInputs(){
+  let h = `<thead><tr><th class="lvl">المستوى</th><th>التلاميذ</th>${LEVEL_FIELDS.map(f=>`<th>${f.l}</th>`).join("")}</tr></thead><tbody>`;
+  LEVELS.forEach((l,li)=>{ const t=levelTotal(l);
+    h += `<tr><td class="lvl">${l}</td><td class="num">${t}</td>${LEVEL_FIELDS.map(f=>{ const v=S.levels[l][f.k]; const err = isNum(v) && (v<0 || (f.cap && v>t));
+      return `<td><input type="number" min="0" ${f.cap?`max="${t}"`:""} id="lv_${li}_${f.k}" data-lv="${l}" data-k="${f.k}" value="${isNum(v)?v:""}" class="${err?"err":""}" aria-label="${l} – ${f.l}"></td>`; }).join("")}</tr>`; });
+  h += `</tbody>`;
+  $('tblLevels').innerHTML = h;
+}
+function renderSchoolInputs(){
+  document.querySelectorAll('[data-school]').forEach(el=>{ const v=S.school[el.dataset.school]; el.value = v ?? ""; });
+  document.querySelectorAll('[data-base]').forEach(el=>{ const v=S.base[el.dataset.base]; el.value = v ?? ""; });
+  document.querySelectorAll('[data-target]').forEach(el=>{ const v=S.targets[el.dataset.target]; el.value = v ?? ""; });
+  $('absenceFields').innerHTML = MONTHS.map((m,i)=>`<div class="field"><label for="abs_${i}">${m}</label><input type="number" step="0.1" min="0" max="100" id="abs_${i}" data-abs="${m}" value="${S.absence[m] ?? ""}"></div>`).join("");
+  genderCheck();
+}
+function genderCheck(){
+  const b=S.school.boys, g=S.school.girls, t=pupils(), el=$('genderCheck');
+  if(isNum(b)&&isNum(g)){ const s=+b+ +g; el.textContent = s===t ? `✓ مجموع الذكور والإناث (${s}) مطابق لعدد التلاميذ.` : `تنبيه: مجموع الذكور والإناث (${s}) لا يطابق عدد التلاميذ في البنية (${t}).`; el.style.color = s===t? cssVar('--ok') : cssVar('--bad'); }
+  else { el.textContent = "أدخل عدد الذكور والإناث كما في لوائح منظومة مسار، أو اقرأ ملف اللائحة أسفله."; el.style.color=""; }
+}
+const numOrNull = v => v === "" ? null : +v;
+document.addEventListener('input', e=>{
+  const el = e.target;
+  if(el.dataset.lv){ const l=el.dataset.lv, k=el.dataset.k, v=numOrNull(el.value); S.levels[l][k]=v;
+    const f=LEVEL_FIELDS.find(x=>x.k===k); el.classList.toggle('err', !!(isNum(v) && (v<0 || (f.cap && v>levelTotal(l))))); save(); }
+  else if(el.dataset.school){ const k=el.dataset.school; S.school[k] = k==="period"? el.value : numOrNull(el.value); save(); if(k==="boys"||k==="girls") genderCheck(); renderHeader(); }
+  else if(el.dataset.base){ S.base[el.dataset.base]=numOrNull(el.value); save(); }
+  else if(el.dataset.target){ S.targets[el.dataset.target]=numOrNull(el.value); save(); }
+  else if(el.dataset.abs){ const v=numOrNull(el.value); if(v===null) delete S.absence[el.dataset.abs]; else S.absence[el.dataset.abs]=v; save(); }
+  else if(el.dataset.st){ S.structure[el.dataset.st][+el.dataset.i] = +el.value||0; save(); renderHeader(); }
+  else if(el.dataset.setting){ S.settings[el.dataset.setting]=el.value; save(); renderHeader(); }
+});
+document.addEventListener('change', e=>{ if(e.target.dataset.st){ renderStructure(); renderLevelInputs(); } });
+$('btnEditStructure').onclick = ()=>{ structureEditable=!structureEditable; renderStructure(); };
+$('tblStructure').addEventListener('click', e=>{
+  const a=e.target.dataset.addsec, d=e.target.dataset.delsec;
+  if(a){ S.structure[a].push(0); save(); renderStructure(); renderLevelInputs(); renderHeader(); }
+  if(d && S.structure[d].length>1){ confirmBox(`حذف آخر قسم من مستوى «${d}»؟`).then(ok=>{ if(ok){ S.structure[d].pop(); save(); renderStructure(); renderLevelInputs(); renderHeader(); } }); }
+});
+
+/* Excel: levels */
+const XL_HEAD = ["المستوى","عدد الأقسام","عدد التلاميذ", ...LEVEL_FIELDS.map(f=>f.l)];
+function levelsSheet(){
+  const rows=[[S.settings.school],[ "الموسم الدراسي", S.settings.year, "فترة التتبع", S.school.period||"" ],[], XL_HEAD];
+  LEVELS.forEach(l=>rows.push([l, S.structure[l].length, levelTotal(l), ...LEVEL_FIELDS.map(f=>S.levels[l][f.k] ?? "")]));
+  rows.push([]); rows.push(["الذكور", S.school.boys ?? "", "الإناث", S.school.girls ?? "", "الأنشطة المنجزة", S.school.activities ?? ""]);
+  rows.push(["الشهر", ...MONTHS]); rows.push(["نسبة الغياب %", ...MONTHS.map(m=>S.absence[m] ?? "")]);
+  const ws = XLSX.utils.aoa_to_sheet(rows); ws['!cols']=[{wch:26},...XL_HEAD.slice(1).map(()=>({wch:16}))]; ws['!views']=[{RTL:true}];
+  return ws;
+}
+$('btnExportLevels').onclick = ()=>{ if(typeof XLSX==="undefined") return toast("مكتبة Excel غير محملة"); const wb=XLSX.utils.book_new(); wb.Workbook={Views:[{RTL:true}]}; XLSX.utils.book_append_sheet(wb, levelsSheet(), "المؤشرات"); download(`مؤشرات_الإمام_الشافعي_${new Date().toISOString().slice(0,10)}.xlsx`, wb); };
+$('btnImportLevels').onclick = ()=>$('fileLevels').click();
+$('fileLevels').onchange = e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload = ev=>{ try{
+    const wb=XLSX.read(new Uint8Array(ev.target.result),{type:"array"}); const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:""});
+    const hi = rows.findIndex(r=>String(r[0]).trim()==="المستوى"); if(hi<0) throw new Error("head");
+    const head = rows[hi].map(x=>String(x).trim()); let n=0;
+    for(let i=hi+1;i<rows.length;i++){ const l=String(rows[i][0]).trim(); if(!LEVELS.includes(l)) continue; n++;
+      LEVEL_FIELDS.forEach(fd=>{ const c=head.indexOf(fd.l); if(c>=0){ const v=rows[i][c]; S.levels[l][fd.k] = (v===""||v===null)? null : +v; } }); }
+    rows.forEach(r=>{ const k=String(r[0]).trim();
+      if(k==="الذكور"){ S.school.boys = r[1]===""?S.school.boys:+r[1]; S.school.girls = r[3]===""?S.school.girls:+r[3]; S.school.activities = r[5]===""?S.school.activities:+r[5]; }
+      if(k==="نسبة الغياب %"){ MONTHS.forEach((m,j)=>{ const v=r[j+1]; if(v!=="" && v!==null) S.absence[m]=+v; }); } });
+    save(); renderAll(); toast(`تم استيراد معطيات ${n} مستويات`);
+  }catch(err){ toast("تعذرت قراءة الملف: استعمل ملفًا مصدَّرًا من المنظومة نفسها"); } e.target.value=""; };
+  r.readAsArrayBuffer(f); };
+/* Massar student list */
+$('btnImportMassar').onclick = ()=>$('fileMassar').click();
+let massarGender=null;
+$('fileMassar').onchange = e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload = ev=>{ try{
+    const wb=XLSX.read(new Uint8Array(ev.target.result),{type:"array"}); let tot=0,m=0,fe=0; const per=[];
+    wb.SheetNames.forEach(sn=>{ const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:""});
+      // find header row containing a gender column
+      let hi=-1, gc=-1; for(let i=0;i<Math.min(rows.length,25);i++){ const c=rows[i].findIndex(x=>/الجنس|النوع|sexe|genre|gender/i.test(String(x))); if(c>=0){ hi=i; gc=c; break; } }
+      let cnt=0, mm=0, ff=0;
+      if(hi>=0){ for(let i=hi+1;i<rows.length;i++){ const row=rows[i]; const filled=row.filter(x=>String(x).trim()!=="").length; if(filled<2) continue;
+        cnt++; const g=String(row[gc]).trim().toLowerCase(); if(/^(ذكر|m|male|garçon|garcon|h)$/.test(g)) mm++; else if(/^(أنثى|انثى|f|female|fille)$/.test(g)) ff++; } }
+      per.push({sn,cnt,mm,ff}); tot+=cnt; m+=mm; fe+=ff; });
+    massarGender = {m,fe,tot};
+    $('massarResult').innerHTML = `<div class="tbl-wrap" style="margin-top:12px"><table><thead><tr><th class="lvl">الورقة / القسم</th><th>التلاميذ</th><th>ذكور</th><th>إناث</th></tr></thead><tbody>${per.map(p=>`<tr><td class="lvl">${esc(p.sn)}</td><td>${p.cnt}</td><td>${p.mm}</td><td>${p.ff}</td></tr>`).join("")}</tbody><tfoot><tr><td class="lvl">المجموع (${per.length} ورقة)</td><td>${tot}</td><td>${m}</td><td>${fe}</td></tr></tfoot></table></div>
+      <p class="hint" style="margin-top:8px">${tot===pupils()?"✓ العدد مطابق للبنية التربوية.":`العدد المقروء (${tot}) يختلف عن البنية التربوية (${pupils()}). تحقق من الملف أو من البنية.`} ${m+fe<tot?`لم يُتعرف على جنس ${tot-m-fe} تلميذ.`:""}</p>
+      <div class="btns" style="margin-top:8px"><button class="btn primary" id="applyGender" ${m+fe===0?"disabled":""}>اعتماد عدد الذكور والإناث</button></div>`;
+    $('applyGender').onclick = ()=>{ S.school.boys=massarGender.m; S.school.girls=massarGender.fe; save(); renderSchoolInputs(); toast("تم اعتماد عدد الذكور والإناث"); };
+  }catch(err){ toast("تعذرت قراءة ملف اللائحة"); } e.target.value=""; };
+  r.readAsArrayBuffer(f); };
+
+/* ---------- COUNCILS ---------- */
+let selectedMeeting = null;
+function fillCouncilSelects(){
+  $('m_council').innerHTML = COUNCILS.map(c=>`<option>${c}</option>`).join("");
+  $('m_filter').innerHTML = `<option value="">جميع المجالس</option>` + COUNCILS.map(c=>`<option>${c}</option>`).join("");
+}
+function renderCouncils(){
+  $('councilTiles').innerHTML = COUNCILS.map(c=>{ const ms=S.meetings.filter(m=>m.council===c).sort((a,b)=>b.date.localeCompare(a.date));
+    return `<div class="tile"><span>${c}</span><strong>${ms.length}</strong><span>آخر اجتماع: ${ms[0]?dmy(ms[0].date):"لا يوجد"}</span></div>`; }).join("");
+  const fc=$('m_filter').value, q=$('m_search').value.trim();
+  const list = S.meetings.filter(m=>(!fc||m.council===fc) && (!q || [m.agenda,m.council,m.date,dmy(m.date),m.president].join(" ").includes(q))).sort((a,b)=>b.date.localeCompare(a.date));
+  $('tblMeetings').innerHTML = `<thead><tr><th>التاريخ</th><th>المجلس</th><th>جدول الأعمال</th><th></th></tr></thead><tbody>` +
+    (list.length ? list.map(m=>`<tr><td class="num">${dmy(m.date)}</td><td>${esc(m.council)}</td><td class="wrap-text">${esc((m.agenda||"").split("\n")[0]).slice(0,70)}</td>
+      <td><div class="btns" style="flex-wrap:nowrap"><button class="btn sm" data-mview="${m.id}">الوثائق</button><button class="btn sm" data-medit="${m.id}">تعديل</button><button class="btn sm danger" data-mdel="${m.id}">حذف</button></div></td></tr>`).join("")
+    : `<tr><td colspan="4"><div class="empty">لا توجد اجتماعات مسجلة. أضف أول اجتماع من الاستمارة.</div></td></tr>`) + `</tbody>`;
+  const m = S.meetings.find(x=>x.id===selectedMeeting) || null;
+  $('meetingDoc').innerHTML = m ? meetingDoc(m) : `<div class="empty">اختر اجتماعًا من السجل لعرض وثائقه الرسمية.</div>`;
+}
+function docHead(){ return `<div class="dh"><div><strong>المملكة المغربية</strong><br>وزارة التربية الوطنية والتعليم الأولي والرياضة<br>${esc(S.settings.aref)}<br>${esc(S.settings.direction)}<br><strong>${esc(S.settings.school)}</strong></div><div style="text-align:left">الموسم الدراسي: <span dir="ltr">${esc(S.settings.year)}</span></div></div>`; }
+const lines = s => String(s||"").split(/\n|،|,/).map(x=>x.trim()).filter(Boolean);
+function meetingDoc(m){
+  const att = lines(m.attendees), dec = lines(m.decisions), ag = String(m.agenda||"").split("\n").map(x=>x.trim()).filter(Boolean);
+  const when = `يوم ${dmy(m.date)}${m.time?` على الساعة ${esc(m.time)}`:""}${m.place?` بـ${esc(m.place)}`:""}`;
+  const rows = (att.length?att:Array(10).fill("")).map((n,i)=>`<tr><td>${i+1}</td><td style="text-align:right">${esc(n)}</td><td style="width:35%"></td></tr>`).join("");
+  return `<div class="doc">${docHead()}
+  <h2>استدعاء لحضور اجتماع ${esc(m.council)}</h2>
+  <p>يتشرف مدير ${esc(S.settings.school)} بدعوة السيدات والسادة أعضاء ${esc(m.council)} لحضور الاجتماع الذي سينعقد ${when}، وذلك لتدارس النقط المدرجة في جدول الأعمال التالي:</p>
+  <ol>${ag.map(a=>`<li>${esc(a)}</li>`).join("")}</ol>
+  <p>ونظرًا لأهمية النقط المدرجة، يرجى الحرص على الحضور في الموعد المحدد.</p>
+  <div class="sign"><div></div><div>مدير المؤسسة<br>${esc(S.settings.director)}</div></div>
+  <div class="pb"></div>
+  ${docHead()}
+  <h2>لائحة الحضور والتوقيع</h2>
+  <p>اجتماع ${esc(m.council)} المنعقد ${when}.</p>
+  <table><thead><tr><th>ر.ت</th><th>الاسم الكامل والصفة</th><th>التوقيع</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="pb"></div>
+  ${docHead()}
+  <h2>محضر اجتماع ${esc(m.council)}</h2>
+  <p>انعقد ${when} اجتماع ${esc(m.council)} برئاسة ${esc(m.president||"……………………")}، وبحضور ${att.length?`${att.length} من الأعضاء وفق لائحة الحضور المرفقة`:"الأعضاء الموقعين على لائحة الحضور المرفقة"}، وتولى مهمة التقرير ${esc(m.secretary||"……………………")}.</p>
+  <p><strong>جدول الأعمال:</strong></p><ol>${ag.map(a=>`<li>${esc(a)}</li>`).join("")}</ol>
+  <p><strong>القرارات والتوصيات:</strong></p>${dec.length?`<ol>${dec.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`:"<p>……………………………………………………………</p>"}
+  <p>ورُفعت الجلسة بعد استيفاء جميع النقط المدرجة في جدول الأعمال.</p>
+  <div class="sign"><div>المقرر<br>${esc(m.secretary||"")}</div><div>رئيس المجلس<br>${esc(m.president||"")}</div></div>
+  </div>`;
+}
+function resetMeetingForm(){ $('meetingForm').reset(); $('m_id').value=""; $('m_date').value=new Date().toISOString().slice(0,10); $('meetingFormTitle').textContent="تسجيل اجتماع"; }
+$('meetingForm').addEventListener('submit', e=>{ e.preventDefault();
+  const id = $('m_id').value || String(Date.now());
+  const m = { id, council:$('m_council').value, date:$('m_date').value, time:$('m_time').value, place:$('m_place').value.trim(), agenda:$('m_agenda').value.trim(),
+    attendees:$('m_attendees').value.trim(), decisions:$('m_decisions').value.trim(), president:$('m_president').value.trim(), secretary:$('m_secretary').value.trim() };
+  const i = S.meetings.findIndex(x=>x.id===id); if(i>=0) S.meetings[i]=m; else S.meetings.push(m);
+  selectedMeeting = id; save(); resetMeetingForm(); renderCouncils(); toast("تم حفظ الاجتماع"); });
+$('m_reset').onclick = resetMeetingForm;
+$('m_filter').onchange = renderCouncils; $('m_search').oninput = renderCouncils;
+$('tblMeetings').addEventListener('click', e=>{
+  const v=e.target.dataset.mview, ed=e.target.dataset.medit, d=e.target.dataset.mdel;
+  if(v){ selectedMeeting=v; renderCouncils(); $('meetingDoc').scrollIntoView({behavior:"smooth",block:"start"}); }
+  if(ed){ const m=S.meetings.find(x=>x.id===ed); if(!m) return; $('m_id').value=m.id; $('m_council').value=m.council; $('m_date').value=m.date; $('m_time').value=m.time||""; $('m_place').value=m.place||"";
+    $('m_agenda').value=m.agenda||""; $('m_attendees').value=m.attendees||""; $('m_decisions').value=m.decisions||""; $('m_president').value=m.president||""; $('m_secretary').value=m.secretary||"";
+    $('meetingFormTitle').textContent="تعديل اجتماع"; $('meetingForm').scrollIntoView({behavior:"smooth",block:"start"}); }
+  if(d){ confirmBox("حذف هذا الاجتماع نهائيًا؟").then(ok=>{ if(ok){ S.meetings=S.meetings.filter(x=>x.id!==d); if(selectedMeeting===d) selectedMeeting=null; save(); renderCouncils(); toast("تم حذف الاجتماع"); } }); }
+});
+$('btnPrintMeeting').onclick = ()=>{ const m=S.meetings.find(x=>x.id===selectedMeeting); printHTML(m?meetingDoc(m):""); };
+
+/* ---------- FINANCE ---------- */
+let finTab = "najah", currentReport = "";
+function renderFinTabs(){
+  $('finTabs').innerHTML = ASSOCS.map(a=>`<button role="tab" data-fin="${a.k}" aria-selected="${finTab===a.k}">${a.name}</button>`).join("") + `<button role="tab" data-fin="project" aria-selected="${finTab==="project"}">مشروع المؤسسة (خلاصة)</button>`;
+}
+$('finTabs').addEventListener('click', e=>{ const k=e.target.dataset.fin; if(!k) return; finTab=k; currentReport=""; renderFinance(); });
+const assoc = k => ASSOCS.find(a=>a.k===k);
+function nextOpId(k){ const a=assoc(k), ops=S.finance[k]; let n=ops.reduce((mx,o)=>Math.max(mx, parseInt(String(o.id).slice(1))||0),0)+1; return a.prefix+String(n).padStart(3,"0"); }
+function renderFinance(){
+  renderFinTabs();
+  const proj = finTab==="project"; $('finAssoc').hidden = proj; $('finProject').hidden = !proj;
+  if(proj) return renderProject();
+  const a=assoc(finTab), ops=S.finance[finTab];
+  const sum = ops.reduce((s,o)=>s+(+o.amount||0),0);
+  $('finTiles').innerHTML = `<div class="tile"><span>عدد العمليات</span><strong>${ops.length}</strong></div>` +
+    MECHS.map(m=>`<div class="tile"><span>${m}</span><strong>${ops.filter(o=>o.mech===m).length}</strong></div>`).join("") +
+    `<div class="tile"><span>المبلغ الإجمالي</span><strong class="num">${money(sum)}</strong></div>`;
+  $('finOpsTitle').textContent = "عمليات " + a.name;
+  $('tblOps').innerHTML = `<thead><tr><th>رقم العملية</th><th>الموضوع</th><th>تاريخ الإنجاز</th><th>المبلغ (درهم)</th><th>آلية الصرف</th><th>مرجع الفاتورة / شهادة التسلم</th><th>ملاحظات</th><th></th></tr></thead><tbody>` +
+    (ops.length? ops.map((o,i)=>`<tr><td>${esc(o.id)}</td>
+      <td><input style="width:180px" id="ope_${i}_subject" data-op="${i}" data-f="subject" value="${esc(o.subject)}"></td>
+      <td><input style="width:140px" type="date" id="ope_${i}_date" data-op="${i}" data-f="date" value="${esc(o.date)}"></td>
+      <td><input style="width:110px" type="number" step="0.01" id="ope_${i}_amount" data-op="${i}" data-f="amount" value="${o.amount}"></td>
+      <td><select id="ope_${i}_mech" data-op="${i}" data-f="mech">${MECHS.map(m=>`<option ${o.mech===m?"selected":""}>${m}</option>`).join("")}</select></td>
+      <td><input style="width:150px" id="ope_${i}_ref" data-op="${i}" data-f="ref" value="${esc(o.ref)}"></td>
+      <td><input style="width:150px" id="ope_${i}_notes" data-op="${i}" data-f="notes" value="${esc(o.notes)}"></td>
+      <td><button class="btn sm danger" data-opdel="${i}">حذف</button></td></tr>`).join("")
+     : `<tr><td colspan="8"><div class="empty">لا توجد عمليات مسجلة لهذه الجمعية بعد. أضف أول عملية من الاستمارة أعلاه.</div></td></tr>`) +
+    `</tbody>${ops.length?`<tfoot><tr><td colspan="3">المجموع</td><td class="num">${money(sum)}</td><td colspan="4"></td></tr></tfoot>`:""}`;
+  $('finReport').innerHTML = currentReport || `<div class="empty">اختر «التقرير المالي» أو «التقرير الأدبي» لإعداده من العمليات المسجلة.</div>`;
+}
+$('op_mech').innerHTML = MECHS.map(m=>`<option>${m}</option>`).join("");
+$('opForm').addEventListener('submit', e=>{ e.preventDefault();
+  S.finance[finTab].push({ id:nextOpId(finTab), subject:$('op_subject').value.trim(), date:$('op_date').value, amount:+$('op_amount').value||0, mech:$('op_mech').value, ref:$('op_ref').value.trim(), notes:$('op_notes').value.trim() });
+  save(); $('opForm').reset(); $('op_date').value=new Date().toISOString().slice(0,10); currentReport=""; renderFinance(); toast("تمت إضافة العملية"); });
+$('tblOps').addEventListener('change', e=>{ const i=e.target.dataset.op; if(i===undefined) return; const f=e.target.dataset.f;
+  S.finance[finTab][i][f] = f==="amount" ? (+e.target.value||0) : e.target.value; save(); currentReport=""; renderFinance(); toast("تم حفظ التعديل"); });
+$('tblOps').addEventListener('click', e=>{ const i=e.target.dataset.opdel; if(i===undefined) return;
+  confirmBox(`حذف العملية ${S.finance[finTab][i].id}؟`).then(ok=>{ if(ok){ S.finance[finTab].splice(+i,1); save(); currentReport=""; renderFinance(); toast("تم حذف العملية"); } }); });
+function finReport(kind){
+  const a=assoc(finTab), ops=[...S.finance[finTab]].sort((x,y)=>String(x.date).localeCompare(String(y.date))), sum=ops.reduce((s,o)=>s+(+o.amount||0),0);
+  if(kind==="fin") return `<div class="doc">${docHead()}<h2>التقرير المالي – ${esc(a.name)}</h2>
+    <table><thead><tr><th>رقم العملية</th><th>الموضوع</th><th>التاريخ</th><th>آلية الصرف</th><th>المرجع</th><th>المبلغ (درهم)</th></tr></thead><tbody>
+    ${ops.map(o=>`<tr><td>${esc(o.id)}</td><td style="text-align:right">${esc(o.subject)}</td><td>${dmy(o.date)}</td><td>${esc(o.mech)}</td><td>${esc(o.ref)}</td><td>${money(o.amount)}</td></tr>`).join("")||`<tr><td colspan="6">لا توجد عمليات</td></tr>`}
+    </tbody><tfoot><tr><td colspan="5">المجموع العام</td><td>${money(sum)}</td></tr></tfoot></table>
+    <h2 style="font-size:1rem">الخلاصة حسب آلية الصرف</h2>
+    <table><thead><tr><th>آلية الصرف</th><th>عدد العمليات</th><th>المبلغ</th></tr></thead><tbody>${MECHS.map(m=>{ const x=ops.filter(o=>o.mech===m); return `<tr><td>${m}</td><td>${x.length}</td><td>${money(x.reduce((s,o)=>s+(+o.amount||0),0))}</td></tr>`; }).join("")}</tbody></table>
+    <div class="sign"><div>أمين المال</div><div>رئيس الجمعية</div></div></div>`;
+  return `<div class="doc">${docHead()}<h2>التقرير الأدبي – ${esc(a.name)}</h2>
+    <p>يتضمن هذا التقرير حصيلة الأنشطة والعمليات التي أنجزتها ${esc(a.name)} بـ${esc(S.settings.school)} خلال الموسم الدراسي <span dir="ltr">${esc(S.settings.year)}</span>، وعددها ${ops.length} عملية بمبلغ إجمالي قدره ${money(sum)}.</p>
+    <table><thead><tr><th>ر.ت</th><th>النشاط / العملية</th><th>تاريخ الإنجاز</th><th>ملاحظات</th></tr></thead><tbody>
+    ${ops.map((o,i)=>`<tr><td>${i+1}</td><td style="text-align:right">${esc(o.subject)}</td><td>${dmy(o.date)}</td><td style="text-align:right">${esc(o.notes)}</td></tr>`).join("")||`<tr><td colspan="4">لا توجد عمليات</td></tr>`}</tbody></table>
+    <div class="sign"><div>الكاتب العام</div><div>رئيس الجمعية</div></div></div>`;
+}
+$('btnFinReport').onclick = ()=>{ currentReport=finReport("fin"); $('finReport').innerHTML=currentReport; };
+$('btnLitReport').onclick = ()=>{ currentReport=finReport("lit"); $('finReport').innerHTML=currentReport; };
+$('btnPrintReport').onclick = ()=>printHTML(currentReport);
+function allOps(){ return ASSOCS.flatMap(a=>S.finance[a.k].map(o=>({...o, assoc:a.name}))); }
+function renderProject(){
+  const ops = allOps();
+  const cell = (k,m)=>S.finance[k].filter(o=>!m||o.mech===m);
+  const s = arr=>arr.reduce((x,o)=>x+(+o.amount||0),0);
+  $('tblMatrix').innerHTML = `<thead><tr><th class="lvl">الجمعية</th>${MECHS.map(m=>`<th>${m}</th>`).join("")}<th>المجموع</th></tr></thead><tbody>` +
+    ASSOCS.map(a=>`<tr><td class="lvl">${a.name}</td>${MECHS.map(m=>{ const x=cell(a.k,m); return `<td class="num">${x.length} عملية<br>${money(s(x))}</td>`; }).join("")}<td class="num"><strong>${cell(a.k).length} عملية<br>${money(s(cell(a.k)))}</strong></td></tr>`).join("") +
+    `</tbody><tfoot><tr><td class="lvl">المجموع</td>${MECHS.map(m=>{ const x=ops.filter(o=>o.mech===m); return `<td class="num">${x.length} عملية<br>${money(s(x))}</td>`; }).join("")}<td class="num">${ops.length} عملية<br>${money(s(ops))}</td></tr></tfoot>`;
+  chart('chFinance',{type:"doughnut",data:{labels:ASSOCS.map(a=>a.name),datasets:[{data:ASSOCS.map(a=>s(cell(a.k))),backgroundColor:ASSOCS.map(a=>cssVar(a.c)),borderColor:cssVar('--surface')}]},options:{cutout:"58%"}});
+  const recent=[...ops].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,6);
+  $('tblRecent').innerHTML = `<thead><tr><th>التاريخ</th><th>الجمعية</th><th>الموضوع</th><th>المبلغ</th></tr></thead><tbody>${recent.map(o=>`<tr><td>${dmy(o.date)}</td><td>${esc(o.assoc)}</td><td class="wrap-text">${esc(o.subject)}</td><td class="num">${money(o.amount)}</td></tr>`).join("")||`<tr><td colspan="4"><div class="empty">لا توجد عمليات بعد. تُسجل العمليات من صفحة كل جمعية.</div></td></tr>`}</tbody>`;
+  $('mechTables').innerHTML = MECHS.map(m=>{ const x=ops.filter(o=>o.mech===m); return `<div class="panel"><div class="panel-head"><h3>${m === "اتفاقية شراكة" ? "اتفاقيات الشراكة" : m==="سند الطلب"?"سندات الطلب":"سندات الصندوق"} (جميع الجمعيات)</h3><span class="pill info">${x.length} · ${money(s(x))}</span></div>
+    <div class="tbl-wrap"><table><thead><tr><th>رقم العملية</th><th>الجمعية</th><th>الموضوع</th><th>تاريخ الإنجاز</th><th>المبلغ</th><th>المرجع</th></tr></thead><tbody>
+    ${x.map(o=>`<tr><td>${esc(o.id)}</td><td>${esc(o.assoc)}</td><td class="wrap-text">${esc(o.subject)}</td><td>${dmy(o.date)}</td><td class="num">${money(o.amount)}</td><td>${esc(o.ref)||"—"}</td></tr>`).join("")||`<tr><td colspan="6">لا توجد عمليات</td></tr>`}</tbody></table></div></div>`; }).join("");
+}
+function financeSheet(){
+  const rows=[["رقم العملية","الجمعية","الموضوع","تاريخ الإنجاز","المبلغ (درهم)","آلية الصرف","مرجع الفاتورة / شهادة التسلم","ملاحظات"]];
+  allOps().forEach(o=>rows.push([o.id,o.assoc,o.subject,o.date,+o.amount||0,o.mech,o.ref||"",o.notes||""]));
+  const ws=XLSX.utils.aoa_to_sheet(rows); ws['!cols']=rows[0].map(()=>({wch:20})); return ws;
+}
+function meetingsSheet(){
+  const rows=[["المجلس","التاريخ","الساعة","المكان","جدول الأعمال","الأعضاء","القرارات والتوصيات","الرئيس","المقرر"]];
+  S.meetings.forEach(m=>rows.push([m.council,m.date,m.time||"",m.place||"",m.agenda,m.attendees,m.decisions,m.president,m.secretary]));
+  const ws=XLSX.utils.aoa_to_sheet(rows); ws['!cols']=rows[0].map(()=>({wch:24})); return ws;
+}
+$('btnExportFinance').onclick = ()=>{ if(typeof XLSX==="undefined") return toast("مكتبة Excel غير محملة"); const wb=XLSX.utils.book_new(); wb.Workbook={Views:[{RTL:true}]}; XLSX.utils.book_append_sheet(wb, financeSheet(), "عمليات الصرف"); download(`الصرف_المدرسي_${new Date().toISOString().slice(0,10)}.xlsx`, wb); };
+
+/* ---------- SETTINGS ---------- */
+function renderSettings(){ document.querySelectorAll('[data-setting]').forEach(el=>el.value = S.settings[el.dataset.setting] || ""); }
+$('btnBackup').onclick = ()=>download(`نسخة_احتياطية_الإمام_الشافعي_${new Date().toISOString().slice(0,10)}.json`, new Blob([JSON.stringify(S,null,1)],{type:"application/json"}));
+$('btnRestore').onclick = ()=>$('fileRestore').click();
+$('fileRestore').onchange = e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload = ev=>{ try{ const p=JSON.parse(ev.target.result); if(!p.structure||!p.levels) throw 0;
+    confirmBox("استبدال جميع المعطيات الحالية بمحتوى النسخة الاحتياطية؟").then(ok=>{ if(ok){ S=merge(defaults(),p); save(); renderAll(); toast("تم استرجاع النسخة الاحتياطية"); } });
+  }catch(err){ toast("الملف ليس نسخة احتياطية صالحة لهذه المنظومة"); } e.target.value=""; }; r.readAsText(f); };
+$('btnExportAll').onclick = ()=>{ if(typeof XLSX==="undefined") return toast("مكتبة Excel غير محملة"); const wb=XLSX.utils.book_new(); wb.Workbook={Views:[{RTL:true},{RTL:true},{RTL:true}]};
+  XLSX.utils.book_append_sheet(wb, levelsSheet(), "المؤشرات"); XLSX.utils.book_append_sheet(wb, meetingsSheet(), "اجتماعات المجالس"); XLSX.utils.book_append_sheet(wb, financeSheet(), "عمليات الصرف");
+  download(`منظومة_الإمام_الشافعي_${new Date().toISOString().slice(0,10)}.xlsx`, wb); };
+$('btnResetAll').onclick = ()=>confirmBox("مسح جميع المعطيات المدخلة (المؤشرات والاجتماعات والعمليات)؟ تبقى البنية التربوية المعتمدة. يُنصح بتنزيل نسخة احتياطية قبل ذلك.").then(ok=>{
+  if(ok){ const keep={settings:S.settings, structure:S.structure}; S=merge(defaults(),keep); save(); renderAll(); toast("تم مسح المعطيات"); } });
+
+/* ---------- navigation ---------- */
+const VIEWS=["strategy","data","councils","finance","settings"];
+function show(v){
+  if(!VIEWS.includes(v)) v="strategy";
+  VIEWS.forEach(x=>$('view-'+x).hidden = x!==v);
+  document.querySelectorAll('.nav [data-view]').forEach(b=>b.setAttribute('aria-selected', b.dataset.view===v));
+  if(v==="strategy") renderStrategy();
+  if(v==="data"){ renderStructure(); renderLevelInputs(); renderSchoolInputs(); }
+  if(v==="councils") renderCouncils();
+  if(v==="finance") renderFinance();
+  if(v==="settings") renderSettings();
+  try{ localStorage.setItem(STORE_KEY+"_view", v); }catch(e){}
+}
+document.querySelector('.nav').addEventListener('click', e=>{ const v=e.target.closest('[data-view]')?.dataset.view; if(v){ show(v); window.scrollTo({top:0}); } });
+function renderAll(){ renderHeader(); const cur = VIEWS.find(v=>!$('view-'+v).hidden) || "strategy"; show(cur); }
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', ()=>renderAll());
+new MutationObserver(()=>renderAll()).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+/* ---------- boot ---------- */
+load(); fillCouncilSelects(); resetMeetingForm(); $('op_date').value=new Date().toISOString().slice(0,10);
+renderHeader();
+let start = location.hash.replace("#","");
+if(!VIEWS.includes(start)){ try{ start = localStorage.getItem(STORE_KEY+"_view") || "strategy"; }catch(e){ start="strategy"; } }
+show(start);
+})();
+</script>
+
+<script>
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>
