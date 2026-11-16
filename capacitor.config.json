@@ -1,0 +1,9 @@
+
+{
+  "appId": "ma.ecole.imamshafii",
+  "appName": "منظومة القيادة",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
