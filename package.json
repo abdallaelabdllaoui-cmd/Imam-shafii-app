@@ -1,0 +1,18 @@
+
+{
+  "name": "imam-shafii-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "منظومة القيادة - مدرسة الإمام الشافعي",
+  "scripts": {
+    "build": "mkdir -p www && cp index.html manifest.webmanifest sw.js www/ && cp -r icons lib www/ && cp header.jpg www/",
+    "android": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.6.2",
+    "@capacitor/android": "8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.2"
+  }
+}
